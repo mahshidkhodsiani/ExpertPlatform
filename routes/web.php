@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\Auth\LinkedInController;
 use App\Http\Controllers\Auth\AppleController;
+use App\Http\Controllers\ExpertiseController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -47,4 +48,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/user/dashboard', [UserController::class, 'index'])->name('user.dashboard');
     Route::get('/expert/dashboard', [ExpertController::class, 'index'])->name('expert.dashboard');
     Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+
+    // Expertise routes
+    Route::get('/expertise', [ExpertiseController::class, 'create'])->name('user.expertise'); // show form
+    Route::post('/expertise', [ExpertiseController::class, 'store'])->name('user.expertise.store'); // store expertise
 });

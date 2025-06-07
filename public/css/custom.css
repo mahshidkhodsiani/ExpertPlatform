@@ -1,0 +1,329 @@
+:root {
+    --sidebar-width: 280px;
+    --sidebar-bg: #1e293b;
+    /* Dark Slate */
+    --sidebar-text: #e2e8f0;
+    /* Light Gray */
+    --sidebar-active-bg: rgba(255, 255, 255, 0.15);
+    /* Slightly lighter active */
+    --sidebar-hover-bg: rgba(255, 255, 255, 0.08);
+    /* Even lighter hover */
+    --sidebar-section-color: #94a3b8;
+    /* Grayish Blue for titles */
+    --sidebar-link-color: #ffffff;
+    /* White for links */
+    --sidebar-link-hover-color: #ffffff;
+    --primary-blue: #0d6efd;
+    /* Bootstrap primary */
+}
+
+nav {
+    font-size: 18px;
+}
+
+/* --- Global Font Size Adjustments --- */
+body {
+    font-size: 1rem;
+    /* Default font size, often 16px */
+    line-height: 1.6;
+    color: #333;
+    /* A bit darker for better contrast */
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 600;
+    /* Make headings bolder */
+    margin-bottom: 0.5rem;
+    /* Adjust spacing below headings */
+}
+
+h1 {
+    font-size: 2.25rem;
+}
+
+/* Approx 36px */
+h2 {
+    font-size: 1.75rem;
+}
+
+/* Approx 28px */
+h3 {
+    font-size: 1.5rem;
+}
+
+/* Approx 24px */
+h4 {
+    font-size: 1.25rem;
+}
+
+/* Approx 20px */
+h5 {
+    font-size: 1.1rem;
+}
+
+/* Approx 17.6px */
+h6 {
+    font-size: 1rem;
+}
+
+/* Approx 16px */
+
+/* Override specific elements if they're still too small */
+.card-title {
+    font-size: 1.25rem;
+    /* Example: make card titles larger if needed */
+}
+
+.card-text,
+.text-muted,
+p,
+span.badge {
+    font-size: 1rem;
+    /* Ensure paragraphs and badges are standard size */
+}
+
+/* --- End Global Font Size Adjustments --- */
+
+/* Overall layout for sidebar and content */
+.wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar styles */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: var(--sidebar-bg);
+    color: var(--sidebar-text);
+    padding: 1.5rem 1rem;
+    flex-shrink: 0;
+    transition: transform 0.3s ease-in-out;
+    overflow-y: auto;
+    position: fixed;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    z-index: 1050;
+    transform: translateX(-100%);
+    display: flex;
+    flex-direction: column;
+}
+
+/* Sidebar 'show' class for mobile */
+.sidebar.show {
+    transform: translateX(0);
+}
+
+/* Main content area */
+.main-content {
+    flex-grow: 1;
+    padding: 0;
+    /* No padding directly on main-content */
+    transition: margin-left 0.3s ease-in-out;
+    width: 100%;
+    /* Ensure it takes full width initially */
+}
+
+/* New wrapper for content inside main-content */
+.content-wrapper {
+    padding: 1.5rem;
+    /* Add consistent padding inside the main content area */
+    max-width: 100%;
+    /* Ensure it doesn't overflow */
+    /* Add some margin to push content when sidebar is open on desktop */
+    /* This will be handled by media query */
+}
+
+/* Desktop specific styles */
+@media (min-width: 992px) {
+    /* Applies to large devices and up */
+    .sidebar {
+        position: relative;
+        /* Stays in normal flow */
+        transform: translateX(0);
+        /* Always visible */
+        min-width: var(--sidebar-width);
+        /* Ensure it keeps its width */
+        height: auto;
+        /* Adapt to content height */
+    }
+
+    .main-content {
+        /* When sidebar is present, main-content should not have margin-left
+                   as it's handled by flexbox directly.
+                   If you notice content is still too far left, try:
+                   padding-left: var(--sidebar-width);
+                   or
+                   margin-left: var(--sidebar-width); but ensure it doesn't overlap
+                */
+        margin-left: 0;
+        /* Reset margin for flex layout */
+    }
+
+    .content-wrapper {
+        /* No specific margin needed here for desktop, flexbox handles spacing */
+        padding: 1.5rem;
+        /* Keep padding */
+    }
+
+    .sidebar-toggle {
+        display: none !important;
+        /* Hide toggle button on desktop */
+    }
+}
+
+/* Mobile specific styles for the toggle button */
+.sidebar-toggle {
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: 1060;
+    background-color: var(--sidebar-bg);
+    border-color: var(--sidebar-bg);
+    color: var(--sidebar-text);
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.375rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sidebar-toggle:hover {
+    background-color: #2a384f;
+    color: #fff;
+}
+
+/* Sidebar Header (App Name) */
+.sidebar-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.sidebar-header h4 {
+    color: #fff;
+    font-weight: 600;
+}
+
+/* Sidebar Navigation */
+.sidebar-nav {
+    flex-grow: 1;
+}
+
+.sidebar-nav .nav-item {
+    margin-bottom: 0.5rem;
+}
+
+.sidebar-nav .nav-link {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    color: var(--sidebar-link-color) !important;
+    border-radius: 0.375rem;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    text-decoration: none;
+}
+
+.sidebar-nav .nav-link:hover {
+    background-color: var(--sidebar-hover-bg);
+    color: var(--sidebar-link-hover-color) !important;
+}
+
+.sidebar-nav .nav-link.active {
+    background-color: var(--sidebar-active-bg);
+    font-weight: 500;
+    color: var(--sidebar-link-hover-color) !important;
+    position: relative;
+}
+
+.sidebar-nav .nav-link.active::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background-color: var(--primary-blue);
+    border-radius: 0 4px 4px 0;
+}
+
+.sidebar-nav .nav-link i {
+    margin-right: 0.75rem;
+    font-size: 1.1rem;
+    width: 24px;
+    text-align: center;
+}
+
+/* Sidebar Section Titles */
+.sidebar-section-title {
+    color: var(--sidebar-section-color);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    padding-left: 1rem;
+}
+
+/* Mobile Overlay */
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 1040;
+    display: none;
+}
+
+.sidebar-overlay.show {
+    display: block;
+}
+
+/* Hide elements on mobile when sidebar is open */
+body.sidebar-open {
+    overflow: hidden;
+}
+
+/* Dashboard Card Icons */
+.icon-lg {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    border-radius: 50%;
+}
+
+.bg-light-primary {
+    background-color: rgba(13, 110, 253, 0.1);
+}
+
+.bg-light-success {
+    background-color: rgba(25, 135, 84, 0.1);
+}
+
+.bg-light-warning {
+    background-color: rgba(255, 193, 7, 0.1);
+}
+
+.bg-light-info {
+    background-color: rgba(13, 202, 240, 0.1);
+}
+
+/* Card Hover Effect */
+.card {
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
