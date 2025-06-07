@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\UserExpertise;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log; // Don't forget to import Log
 
 class ExpertiseController extends Controller
 {
@@ -14,15 +15,23 @@ class ExpertiseController extends Controller
      */
     public function create()
     {
-        return view('user.add_expertise'); // به view مربوطه ریدایرکت می‌کنیم
+        return view('user.add_expertise'); // This returns the view with the form
     }
+
+    public function show()
+    {
+        $expertises = UserExpertise::all();
+        return view('user.expertises', compact('expertises'));
+    }
+
 
     /**
      * ذخیره تخصص جدید در دیتابیس.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\Response // Changed return type to Response
      */
+
     public function store(Request $request)
     {
         $request->validate([
@@ -38,6 +47,12 @@ class ExpertiseController extends Controller
             'category' => $request->category,
         ]);
 
-        return redirect()->route('user.dashboard')->with('success', 'Expertise added successfully!');
+        return redirect()->route('user.expertise')->with([
+            'toast' => [
+                'type' => 'success',
+                'message' => 'با موفقیت انجام شد!',
+                'title' => 'Success'
+            ]
+        ]);
     }
 }

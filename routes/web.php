@@ -46,10 +46,18 @@ Route::middleware(['auth'])->group(function () {
 
     // Specific dashboards
     Route::get('/user/dashboard', [UserController::class, 'index'])->name('user.dashboard');
-    Route::get('/expert/dashboard', [ExpertController::class, 'index'])->name('expert.dashboard');
-    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+
 
     // Expertise routes
     Route::get('/expertise', [ExpertiseController::class, 'create'])->name('user.expertise'); // show form
-    Route::post('/expertise', [ExpertiseController::class, 'store'])->name('user.expertise.store'); // store expertise
+    // Route::get('/expertise/create', [ExpertiseController::class, 'create'])->name('user.expertise.create');
+    Route::post('/expertise/store', [ExpertiseController::class, 'store'])->name('user.expertise.store');
+    Route::get('/expertise/show', [ExpertiseController::class, 'show'])->name('user.expertise.show');
+
+    Route::get('/{expertise}/edit', [ExpertiseController::class, 'edit'])->name('user.expertise.edit'); // user.expertise.edit
+    Route::put('/{expertise}', [ExpertiseController::class, 'update'])->name('user.expertise.update'); // user.expertise.update
+    Route::delete('/{expertise}', [ExpertiseController::class, 'destroy'])->name('user.expertise.destroy'); // user.expertise.destroy
+
+
+
 });
