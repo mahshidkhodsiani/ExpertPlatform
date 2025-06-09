@@ -8,17 +8,12 @@
                     <div class="card-body">
                         <div class="d-flex align-items-center">
                             <div class="flex-shrink-0">
-                                <img src="https://ui-avatars.com/api/?name={{ auth()->user()->name }}&background=0D8ABC&color=fff"
-                                    alt="Profile" class="rounded-circle" width="80">
+                              
                             </div>
                             <div class="flex-grow-1 ms-4">
-                                <h2 class="mb-1">Welcome, {{ auth()->user()->name }}!</h2>
-                                <p class="text-muted mb-2">{{ auth()->user()->email }}</p>
-                                <span class="badge bg-primary">{{ ucfirst(auth()->user()->role) }}</span>
+                                <h2 class="mb-1">Add new Expertise to my profile</h2>
                             </div>
-                            <div class="flex-shrink-0">
-                                <a href="#" class="btn btn-outline-secondary">Edit Profile</a>
-                            </div>
+                      
                         </div>
                     </div>
                 </div>
@@ -32,7 +27,9 @@
                         <h5 class="mb-0">Add New Expertise</h5>
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('user.expertise.store') }}" method="POST">
+
+
+                        <form action="{{ route('user.expertise.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="mb-3">
                                 <label for="title" class="form-label">Title</label>
@@ -40,8 +37,13 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="body" class="form-label">Body</label>
+                                <label for="body" class="form-label">Description</label>
                                 <textarea class="form-control" id="body" name="body" rows="5" required></textarea>
+                            </div>
+
+                            <div class="mb-3">
+                                 <label for="number" class="form-label">My number</label>
+                                <input type="number" class="form-control" id="number" name="number" required>
                             </div>
 
                             <div class="mb-3">
@@ -72,13 +74,28 @@
                                 </select>
                             </div>
 
+                            <div class="mb-3">
+                                <label for="image1" class="form-label">Image 1 (Optional)</label>
+                                <input type="file" class="form-control" id="image1" name="image1" accept="image/*">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="image2" class="form-label">Image 2 (Optional)</label>
+                                <input type="file" class="form-control" id="image2" name="image2" accept="image/*">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="image3" class="form-label">Image 3 (Optional)</label>
+                                <input type="file" class="form-control" id="image3" name="image3" accept="image/*">
+                            </div>
+
                             <button type="submit" class="btn btn-primary">Save Expertise</button>
                         </form>
+
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
- 
-
 @endsection

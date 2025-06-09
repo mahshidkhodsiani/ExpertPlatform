@@ -46,6 +46,10 @@ Route::middleware(['auth'])->group(function () {
 
     // Specific dashboards
     Route::get('/user/dashboard', [UserController::class, 'index'])->name('user.dashboard');
+    Route::get('/user/profile', [UserController::class, 'profile'])->name('user.profile');
+
+    // مسیر برای پردازش فرم ویرایش پروفایل
+    Route::put('/user/profile', [UserController::class, 'updateProfile'])->name('user.profile.update');
 
 
     // Expertise routes
