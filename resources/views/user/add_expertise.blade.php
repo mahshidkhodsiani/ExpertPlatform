@@ -8,12 +8,12 @@
                     <div class="card-body">
                         <div class="d-flex align-items-center">
                             <div class="flex-shrink-0">
-                              
+
                             </div>
                             <div class="flex-grow-1 ms-4">
                                 <h2 class="mb-1">Add new Expertise to my profile</h2>
                             </div>
-                      
+
                         </div>
                     </div>
                 </div>
@@ -42,7 +42,7 @@
                             </div>
 
                             <div class="mb-3">
-                                 <label for="number" class="form-label">My number</label>
+                                <label for="number" class="form-label">My number</label>
                                 <input type="number" class="form-control" id="number" name="number" required>
                             </div>
 
@@ -50,29 +50,13 @@
                                 <label for="category" class="form-label">Category</label>
                                 <select class="form-select" id="category" name="category" required>
                                     <option value="">Select a category</option>
-                                    <option value="web_development">Web Development</option>
-                                    <option value="mobile_development">Mobile Development</option>
-                                    <option value="data_science">Data Science</option>
-                                    <option value="artificial_intelligence">Artificial Intelligence</option>
-                                    <option value="cybersecurity">Cybersecurity</option>
-                                    <option value="cloud_computing">Cloud Computing</option>
-                                    <option value="devops">DevOps</option>
-                                    <option value="ui_ux_design">UI/UX Design</option>
-                                    <option value="digital_marketing">Digital Marketing</option>
-                                    <option value="content_writing">Content Writing</option>
-                                    <option value="project_management">Project Management</option>
-                                    <option value="financial_analysis">Financial Analysis</option>
-                                    <option value="human_resources">Human Resources</option>
-                                    <option value="legal_services">Legal Services</option>
-                                    <option value="healthcare">Healthcare</option>
-                                    <option value="education">Education</option>
-                                    <option value="sales">Sales</option>
-                                    <option value="customer_service">Customer Service</option>
-                                    <option value="business_consulting">Business Consulting</option>
-                                    <option value="graphic_design">Graphic Design</option>
-                                    <option value="video_editing">Video Editing</option>
+                                    @foreach ($categories as $category)
+                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
+
+                            
 
                             <div class="mb-3">
                                 <label for="image1" class="form-label">Image 1 (Optional)</label>

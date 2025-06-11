@@ -57,11 +57,14 @@ Route::middleware(['auth'])->group(function () {
     // Route::get('/expertise/create', [ExpertiseController::class, 'create'])->name('user.expertise.create');
     Route::post('/expertise/store', [ExpertiseController::class, 'store'])->name('user.expertise.store');
     Route::get('/expertise/show', [ExpertiseController::class, 'show'])->name('user.expertise.show');
+    Route::get('/expertise/showAll', [ExpertiseController::class, 'showAll'])->name('expertises.show');
 
-    Route::get('/{expertise}/edit', [ExpertiseController::class, 'edit'])->name('user.expertise.edit'); // user.expertise.edit
-    Route::put('/{expertise}', [ExpertiseController::class, 'update'])->name('user.expertise.update'); // user.expertise.update
-    Route::delete('/{expertise}', [ExpertiseController::class, 'destroy'])->name('user.expertise.destroy'); // user.expertise.destroy
+    // در فایل web.php
+    Route::get('/expertise/{expertise}', [ExpertiseController::class, 'showDetails'])->name('user.expertise.details');
 
 
+    Route::get('/expertises/{expertise}/edit', [ExpertiseController::class, 'edit'])->name('user.expertise.edit');
+    Route::put('/expertises/{expertise}', [ExpertiseController::class, 'update'])->name('user.expertise.update');
+    Route::delete('/expertises/{expertise}', [ExpertiseController::class, 'destroy'])->name('user.expertise.destroy');
 
 });

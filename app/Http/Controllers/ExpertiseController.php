@@ -6,6 +6,7 @@ use App\Models\UserExpertise;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage; // Import the Storage facade
+use App\Models\Category;
 
 class ExpertiseController extends Controller
 {
@@ -16,34 +17,98 @@ class ExpertiseController extends Controller
      */
     public function create()
     {
-        return view('user.add_expertise');
+        $categories = Category::all(); // یا ->orderBy('name')->get()
+        return view('user.add_expertise', compact('categories'));
     }
+
 
     public function show(Request $request)
     {
         $query = UserExpertise::where('user_id', auth()->id());
 
-        // فیلتر بر اساس عنوان
         if ($request->has('search')) {
             $query->where('title', 'like', '%' . $request->search . '%');
         }
 
-        // فیلتر بر اساس دسته‌بندی
         if ($request->has('category') && $request->category != '') {
-            $query->where('category', $request->category);
+            $query->where('category_id', $request->category);
         }
 
-        // لیست دسته‌بندی‌های موجود
-        $categories = [
-            'web_development' => 'Web Development',
-            'mobile_development' => 'Mobile Development',
-            'data_science' => 'Data Science',
-            // سایر دسته‌بندی‌ها...
-        ];
+        // دریافت دسته‌بندی‌ها از جدول categories
+        $categories = Category::pluck('name', 'id')->toArray();
 
         $expertises = $query->latest()->paginate(10);
 
         return view('user.expertises', compact('expertises', 'categories'));
+    }
+
+
+
+    
+    public function showAll(Request $request)
+    {
+        $query = UserExpertise::query()->with('user'); // اضافه کردن with('user') برای رابطه
+
+        if ($request->has('search')) {
+            $query->where('title', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->has('category') && $request->category != '') {
+            $query->where('category_id', $request->category);
+        }
+
+        $categories = Category::pluck('name', 'id')->toArray();
+        $expertises = $query->latest()->paginate(10);
+
+        return view('user.all_expertises', compact('expertises', 'categories'));
+    }
+
+
+    public function showDetails(UserExpertise $expertise)
+    {
+        return view('user.details', [
+            'expertise' => $expertise,
+            'user' => $expertise->user // فرض میکنیم رابطه user با expertise تعریف شده است
+        ]);
+    }
+
+
+
+
+    public function edit(UserExpertise $expertise)
+    {
+        $categories = [
+            // لیست دسته‌بندی‌های شما
+        ];
+
+        return view('user.expertise.edit', [
+            'expertise' => $expertise,
+            'categories' => $categories
+        ]);
+    }
+
+    public function update(Request $request, UserExpertise $expertise)
+    {
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'body' => 'nullable|string',
+            'category_id' => 'required|integer',
+            // اعتبارسنجی تصاویر اگر نیاز است
+        ]);
+
+        $expertise->update($validated);
+
+        return redirect()->route('user.expertise.show')
+            ->with('success', 'Expertise updated successfully!');
+    }
+
+    public function destroy(ExUserExpertiseertise $expertise)
+    {
+        // حذف تصاویر مرتبط اگر نیاز است
+        $expertise->delete();
+
+        return redirect()->route('user.expertise.show')
+            ->with('success', 'Expertise deleted successfully!');
     }
 
     /**

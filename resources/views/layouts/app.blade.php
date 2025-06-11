@@ -42,20 +42,32 @@
                                 <span>Add my expertise</span>
                             </a>
                         </li>
-                          <li class="nav-item">
-                                <a href="{{ route('user.expertise.show') }}"
-                                    class="nav-link {{ request()->routeIs('user.expertise.show') ? 'active' : '' }}">
-                                    <i class="fas fa-list me-3"></i>
-                                    <span>Show Expertises</span>
-                                </a>
-                            </li>
+                        <li class="nav-item">
+                            <a href="{{ route('user.expertise.show') }}"
+                                class="nav-link {{ request()->routeIs('user.expertise.show') ? 'active' : '' }}">
+                                <i class="fas fa-list me-3"></i>
+                                <span>Show my expertises</span>
+                            </a>
+                        </li>
 
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{{ route('expertises.show') }}"
+                                class="nav-link {{ request()->routeIs('expertises.show') ? 'active' : '' }}">
+                                <i class="fas fa-list-check me-3"></i>
+                                <span>Show all expertises</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{ route('user.profile') }}"
+                                class="nav-link {{ request()->routeIs('user.profile') ? 'active' : '' }}">
                                 <i class="fas fa-user me-3"></i>
                                 <span>Profile</span>
                             </a>
                         </li>
+
+
+
                         @if (auth()->user() && auth()->user()->role === 'admin')
                             <div class="sidebar-section-title mt-4">Administration</div>
                             <li class="nav-item">
@@ -64,7 +76,7 @@
                                     <span>User Management</span>
                                 </a>
                             </li>
-                          
+
                             <li class="nav-item">
                                 <a href="#" class="nav-link">
                                     <i class="fas fa-cog me-3"></i>
