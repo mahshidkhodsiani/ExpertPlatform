@@ -13,18 +13,17 @@ return new class extends Migration
     {
         Schema::create('user_expertises', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('title')->nullable();
             $table->longText('body')->nullable();
-            $table->foreignId('category_id')->nullable()->constrained('categories')->onDelete('set null');
+            $table->string('number')->nullable(); // ✅ حالا string هست
+            $table->foreignId('category_id')->nullable()->constrained()->onDelete('set null');
             $table->string('image_path_1')->nullable();
             $table->string('image_path_2')->nullable();
             $table->string('image_path_3')->nullable();
             $table->timestamps();
         });
     }
-
-
 
     /**
      * Reverse the migrations.

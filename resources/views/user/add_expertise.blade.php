@@ -21,6 +21,20 @@
         </div>
 
         <div class="row">
+
+
+            @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
+
+
             <div class="col-lg-8">
                 <div class="card shadow-sm">
                     <div class="card-header bg-white py-3">
@@ -43,7 +57,7 @@
 
                             <div class="mb-3">
                                 <label for="number" class="form-label">My number</label>
-                                <input type="number" class="form-control" id="number" name="number" required>
+                                <input type="text" class="form-control" id="number" name="number" required>
                             </div>
 
                             <div class="mb-3">
@@ -55,8 +69,6 @@
                                     @endforeach
                                 </select>
                             </div>
-
-                            
 
                             <div class="mb-3">
                                 <label for="image1" class="form-label">Image 1 (Optional)</label>

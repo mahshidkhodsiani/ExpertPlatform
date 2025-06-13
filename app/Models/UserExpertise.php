@@ -16,6 +16,7 @@ class UserExpertise extends Model
         'title',
         'body',
         'category_id', // Make sure this is present if you allow mass assignment
+        'number',
         'image_path_1',
         'image_path_2',
         'image_path_3',

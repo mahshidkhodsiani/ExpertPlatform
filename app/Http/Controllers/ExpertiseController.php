@@ -121,13 +121,20 @@ class ExpertiseController extends Controller
     {
         // dd($request->all()); // Check all incoming request data
 
+
+        // $request->merge([
+        //     'number' => (int) $request->number,
+        //     'category' => (int) $request->category,
+        // ]);
+
         $request->validate([
             'title' => 'required|string|max:255',
             'body' => 'required|string',
-            'category' => 'required|string|max:255',
-            'image1' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'image2' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'image3' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'category' => 'required|integer|exists:categories,id',
+            'number' => 'required|string|max:20', // ✅ حالا رشته است
+            'image1' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:5120', // Example: Allow up to 5MB (5 * 1024 = 5120KB)
+            'image2' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:5120',
+            'image3' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:5120',
         ]);
 
         // dd('Validation passed!'); // Check if validation is succeeding
@@ -149,7 +156,8 @@ class ExpertiseController extends Controller
             'user_id' => auth()->id(),
             'title' => $request->title,
             'body' => $request->body,
-            'category_id' => $request->category,
+            'number' => $request->number,
+            'category_id' =>  $request->category,
             'image_path_1' => $imagePaths['image_path_1'],
             'image_path_2' => $imagePaths['image_path_2'],
             'image_path_3' => $imagePaths['image_path_3'],

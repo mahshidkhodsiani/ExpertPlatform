@@ -63,22 +63,33 @@
                                 <strong>Email:</strong>
                                 <p>{{ $user->email }}</p>
                             </div>
-                            {{-- فیلدهای اختیاری دیگر --}}
-                            @if ($user->phone)
-                                <div class="col-md-6 mb-3">
-                                    <strong>Phone:</strong>
-                                    <p>{{ $user->phone }}</p>
-                                </div>
-                            @endif
-                            @if ($user->bio)
-                                <div class="col-12 mb-3">
-                                    <strong>Bio:</strong>
-                                    <p>{{ $user->bio }}</p>
-                                </div>
-                            @endif
+                            <div class="col-md-6 mb-3">
+                                <strong>Biography:</strong>
+                                <p>{{ $user->biography }}</p>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <strong>Tags:</strong>
+                                <p>{{ $user->tags }}</p>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <strong>Price:</strong>
+                                <p>{{ $user->tags }}</p>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <strong>Stars:</strong>
+                                <p>{{ $user->star_rating }}</p>
+                            </div>
+                          
                             <div class="col-12">
                                 <strong>Member Since:</strong>
                                 <p>{{ $user->created_at->format('M d, Y') }}</p>
+                            </div>
+                            <div class="col-12">
+                                <strong>Introduction:</strong>
+                                <p>{{ $user->introduction }}</p>
                             </div>
                         </div>
                     </div>
