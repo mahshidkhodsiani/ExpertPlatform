@@ -71,6 +71,7 @@ class UserController extends Controller
         // اعتبار سنجی اطلاعات ورودی
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
+            'family' => ['required', 'string', 'max:255'],
             'email' => [
                 'required',
                 'string',
@@ -80,14 +81,15 @@ class UserController extends Controller
             ],
             // اگر فیلدهای دیگری دارید، اینجا اضافه کنید. مثلاً 'phone', 'address'
             'phone' => ['nullable', 'string', 'max:20'], // مثال: فیلد تلفن
-            'bio' => ['nullable', 'string', 'max:1000'], // مثال: فیلد بیوگرافی
+            'biography' => ['nullable', 'string', 'max:1000'], // مثال: فیلد بیوگرافی
         ]);
 
         // بروزرسانی اطلاعات کاربر
         $user->name = $request->input('name');
+        $user->family = $request->input('family');
         $user->email = $request->input('email');
         $user->phone = $request->input('phone'); // مطمئن شوید این فیلدها در مدل User شما وجود دارند
-        $user->bio = $request->input('bio');
+        $user->biography = $request->input('biography');
 
         // اگر فیلد رمز عبور در فرم وجود دارد و کاربر آن را پر کرده است
         if ($request->filled('password')) {

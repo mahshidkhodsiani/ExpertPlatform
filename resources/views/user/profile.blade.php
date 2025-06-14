@@ -60,6 +60,10 @@
                                 <p>{{ $user->name }}</p>
                             </div>
                             <div class="col-md-6 mb-3">
+                                <strong>Family:</strong>
+                                <p>{{ $user->family }}</p>
+                            </div>
+                            <div class="col-md-6 mb-3">
                                 <strong>Email:</strong>
                                 <p>{{ $user->email }}</p>
                             </div>
@@ -82,7 +86,7 @@
                                 <strong>Stars:</strong>
                                 <p>{{ $user->star_rating }}</p>
                             </div>
-                          
+
                             <div class="col-12">
                                 <strong>Member Since:</strong>
                                 <p>{{ $user->created_at->format('M d, Y') }}</p>
@@ -179,7 +183,8 @@
                                                         <i class="fas fa-eye"></i>
                                                     </a>
                                                     <a href="{{ route('user.expertise.edit', $expertise->id) }}"
-                                                        class="btn btn-outline-warning btn-sm me-1" title="Edit Expertise">
+                                                        class="btn btn-outline-warning btn-sm me-1"
+                                                        title="Edit Expertise">
                                                         <i class="fas fa-edit"></i>
                                                     </a>
                                                     <form action="{{ route('user.expertise.destroy', $expertise->id) }}"
@@ -228,6 +233,11 @@
                                 value="{{ old('name', $user->name) }}" required>
                         </div>
                         <div class="mb-3">
+                            <label for="family" class="form-label">Family</label>
+                            <input type="text" class="form-control" id="family" name="family"
+                                value="{{ old('family', $user->family) }}" required>
+                        </div>
+                        <div class="mb-3">
                             <label for="email" class="form-label">Email address</label>
                             <input type="email" class="form-control" id="email" name="email"
                                 value="{{ old('email', $user->email) }}" required>
@@ -238,8 +248,8 @@
                                 value="{{ old('phone', $user->phone) }}">
                         </div>
                         <div class="mb-3">
-                            <label for="bio" class="form-label">Bio (Optional)</label>
-                            <textarea class="form-control" id="bio" name="bio" rows="3">{{ old('bio', $user->bio) }}</textarea>
+                            <label for="biography" class="form-label">biography (Optional)</label>
+                            <textarea class="form-control" id="biography" name="biography" rows="3">{{ old('biography', $user->biography) }}</textarea>
                         </div>
                         <hr>
                         <p class="text-muted">Leave password fields blank if you don't want to change it.</p>

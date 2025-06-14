@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('family')->nullable();
             $table->longText('biography')->nullable();
+            $table->string('phone')->nullable();
             $table->string('tags')->nullable();
             $table->integer('price')->nullable();
             $table->decimal('perHour', 8, 2)->default(0);
