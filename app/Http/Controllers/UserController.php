@@ -63,7 +63,6 @@ class UserController extends Controller
     }
 
 
-    // ذخیره تغییرات پروفایل کاربری
     public function updateProfile(Request $request)
     {
         $user = auth()->user();
@@ -77,31 +76,65 @@ class UserController extends Controller
                 'string',
                 'email',
                 'max:255',
-                Rule::unique('users')->ignore($user->id), // ایمیل باید منحصر به فرد باشد به جز برای خود کاربر
+                Rule::unique('users')->ignore($user->id),
             ],
-            // اگر فیلدهای دیگری دارید، اینجا اضافه کنید. مثلاً 'phone', 'address'
-            'phone' => ['nullable', 'string', 'max:20'], // مثال: فیلد تلفن
-            'biography' => ['nullable', 'string', 'max:1000'], // مثال: فیلد بیوگرافی
+            'phone' => ['nullable', 'string', 'max:20'],
+            'price' => ['nullable', 'integer', 'min:0'], // تغییر max به min برای قیمت
+            'per' => ['required', 'in:h,s'], // اعتبارسنجی مقدار per
+            'biography' => ['nullable', 'string', 'max:1000'],
+            'introduction' => ['nullable', 'file', 'mimes:mp4,mov,avi', 'max:10240'], // 10MB max
         ]);
 
         // بروزرسانی اطلاعات کاربر
         $user->name = $request->input('name');
         $user->family = $request->input('family');
         $user->email = $request->input('email');
-        $user->phone = $request->input('phone'); // مطمئن شوید این فیلدها در مدل User شما وجود دارند
+        $user->phone = $request->input('phone');
+        $user->price = $request->input('price');
         $user->biography = $request->input('biography');
 
-        // اگر فیلد رمز عبور در فرم وجود دارد و کاربر آن را پر کرده است
+        // تنظیم مقادیر perHour و perSession
+        $user->perHour = ($request->input('per') === 'h') ? 1 : 0;
+        $user->perSession = ($request->input('per') === 's') ? 1 : 0;
+
+        // آپلود ویدیو معرفی
+        if ($request->hasFile('introduction')) {
+            // حذف فایل قبلی اگر وجود دارد
+            if ($user->introduction) {
+                Storage::delete('public/' . $user->introduction);
+            }
+
+            // ذخیره فایل جدید
+            $file = $request->file('introduction');
+            $path = $file->store('introductions', 'public');
+
+            // بررسی مدت زمان ویدیو (حداکثر 1 دقیقه)
+            try {
+                $getID3 = new \getID3;
+                $fileInfo = $getID3->analyze($file->getPathname());
+
+                if (isset($fileInfo['playtime_seconds']) && $fileInfo['playtime_seconds'] > 60) {
+                    Storage::delete('public/' . $path);
+                    return redirect()->back()->with('error', 'Video duration must be 1 minute or less.');
+                }
+
+                $user->introduction = $path;
+            } catch (\Exception $e) {
+                Storage::delete('public/' . $path);
+                return redirect()->back()->with('error', 'Could not process video file.');
+            }
+        }
+
+        // تغییر رمز عبور اگر وارد شده باشد
         if ($request->filled('password')) {
             $request->validate([
-                'password' => ['required', 'string', 'min:8', 'confirmed'], // 'confirmed' نیاز به فیلد 'password_confirmation' دارد
+                'password' => ['required', 'string', 'min:8', 'confirmed'],
             ]);
             $user->password = Hash::make($request->input('password'));
         }
 
         $user->save();
 
-        // ریدایرکت به صفحه پروفایل با پیام موفقیت
         return redirect()->route('user.profile')->with('success', 'Your profile has been updated successfully!');
     }
 }

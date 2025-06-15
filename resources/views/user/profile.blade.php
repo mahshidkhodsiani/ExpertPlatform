@@ -79,22 +79,40 @@
 
                             <div class="col-md-6 mb-3">
                                 <strong>Price:</strong>
-                                <p>{{ $user->tags }}</p>
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <strong>Stars:</strong>
-                                <p>{{ $user->star_rating }}</p>
+                                <p>
+                                    {{ $user->price }}
+                                    @if ($user->perHour)
+                                        per hour
+                                    @elseif($user->perSession)
+                                        per session
+                                    @endif
+                                </p>
                             </div>
 
                             <div class="col-12">
                                 <strong>Member Since:</strong>
                                 <p>{{ $user->created_at->format('M d, Y') }}</p>
                             </div>
-                            <div class="col-12">
-                                <strong>Introduction:</strong>
-                                <p>{{ $user->introduction }}</p>
+
+
+
+
+                            <div class="col-md-12 mb-3">
+                                <strong>Introduction Video:</strong>
+                                @if ($user->introduction)
+                                    <div class="mt-2">
+                                        <video width="320" height="240" controls>
+                                            <source src="{{ asset('storage/' . $user->introduction) }}" type="video/mp4">
+                                            Your browser does not support the video tag.
+                                        </video>
+                                    </div>
+                                @endif
                             </div>
+
+
+
+
+
                         </div>
                     </div>
                 </div>
@@ -214,6 +232,7 @@
         </div>
     </div>
 
+
     <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel"
         aria-hidden="true">
         <div class="modal-dialog">
@@ -223,7 +242,7 @@
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                         aria-label="Close"></button>
                 </div>
-                <form action="{{ route('user.profile.update') }}" method="POST">
+                <form action="{{ route('user.profile.update') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="modal-body">
@@ -247,10 +266,49 @@
                             <input type="text" class="form-control" id="phone" name="phone"
                                 value="{{ old('phone', $user->phone) }}">
                         </div>
+
                         <div class="mb-3">
-                            <label for="biography" class="form-label">biography (Optional)</label>
+                            <label for="price" class="form-label">Price</label>
+                            <input type="text" class="form-control" id="price" name="price"
+                                value="{{ old('price', $user->price) }}">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="price" class="form-label">per</label>
+                            <select class="form-control" name="per">
+                                <option value="h">Hour</option>
+                                <option value="s">Session</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="biography" class="form-label">Biography (Optional)</label>
                             <textarea class="form-control" id="biography" name="biography" rows="3">{{ old('biography', $user->biography) }}</textarea>
                         </div>
+
+                        <div class="mb-3">
+                            <label for="introduction" class="form-label">Introduction Video (Optional)</label>
+                            @if ($user->introduction_video)
+                                <div class="mb-2">
+                                    <video width="100%" controls>
+                                        <source src="{{ asset('storage/' . $user->introduction_video) }}"
+                                            type="video/mp4">
+                                        Your browser does not support the video tag.
+                                    </video>
+                                    <div class="form-check mt-2">
+                                        <input class="form-check-input" type="checkbox" id="delete_introduction"
+                                            name="delete_introduction">
+                                        <label class="form-check-label" for="delete_introduction">
+                                            Delete current video
+                                        </label>
+                                    </div>
+                                </div>
+                            @endif
+                            <input type="file" class="form-control" id="introduction" name="introduction"
+                                accept="video/mp4,video/x-m4v,video/*">
+                            <small class="text-muted">Max file size: 10MB. Duration: max 1 minute (MP4 recommended)</small>
+                        </div>
+
                         <hr>
                         <p class="text-muted">Leave password fields blank if you don't want to change it.</p>
                         <div class="mb-3">
@@ -271,4 +329,6 @@
             </div>
         </div>
     </div>
+
+
 @endsection
